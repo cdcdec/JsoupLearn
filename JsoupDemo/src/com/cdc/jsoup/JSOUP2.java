@@ -8,6 +8,7 @@ import java.io.PrintStream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class JSOUP2{
@@ -24,18 +25,34 @@ public class JSOUP2{
 		return doc;
 	}
 	
-	public  String  getTable(String htmlUrl,String floderName){
+	public  String  getTable(String htmlUrl,String authorName,String bookName){
 		Floder  floder=null;
 		Document doc=getDoc(htmlUrl);
 		String str="";
 		//获取:<h1><strong><font color="#dc143c">人在欧洲</font></strong></h1>中的"人在欧洲"
 		Elements arTitle = doc.select("h1>strong>font[color=#dc143c]");
 		floder=new Floder();
-		floder.createRootDir("", arTitle.get(0).text());
+		File rootDir=floder.createRootDir(authorName, bookName);
+		File file=floder.createFile(arTitle.get(0).text()+"内容简介", rootDir);
 		//<td class="p10-24"><strong>内容简介：</strong><br />　　《人在欧洲》是龙应台旅瑞一年多的心路...</td>
-		Elements arDesc = doc.select("td.p10-24");//只能获取"内容简介："
+		//查找class等于p10-24的td元素,且这个元素的align属性不等于right
+		Elements arDesc = doc.select("td.p10-24[align!=right]");
+		for (int i = 0; i < arDesc.size(); i++) {
+			Element el=arDesc.get(i);
+			StringTools.writeFile(file, el.text());
+		}
+		Elements jis=doc.select("td[align=center][colspan=4]");
+		for (int i = 0; i < jis.size(); i++) {
+			Element el=jis.get(i);
+			floder.createDir(rootDir, el.text());
+		}
+		Elements hls=doc.select("td>a[href$=html]");
+		for (int i = 0; i < hls.size(); i++) {
+			Element el=hls.get(i);
+			floder.createFile(rootDir, el.text());
+			
+		}
 		
-		System.out.println(arDesc.get(0).html());
 		
 		return str; 
 	}

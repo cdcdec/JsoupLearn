@@ -1,5 +1,10 @@
 package com.cdc.jsoup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 public class StringTools {
 	/**
 	 * 获取文件路径
@@ -42,6 +47,23 @@ public class StringTools {
 			}
 		}
 		return String.copyValueOf(carr).trim();
+	}
+	
+	
+	public static File writeFile(File file,String str){
+		PrintStream ps=null;
+		try {
+			ps = new PrintStream(new FileOutputStream(file));
+			ps.append("# "+file.getName());
+			//添加一行空行
+			ps.append("\n\n");
+			ps.append(str);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return file;
 	}
 	
 	

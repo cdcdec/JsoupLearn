@@ -19,6 +19,61 @@ public class Floder {
 		return dir;
 	}
 	
+	/**创建目录**/
+	public File createDir(File fatherFile,String floderName){
+		floderName=StringTools.clearNotChinese(floderName);
+		String base=fatherFile.getAbsolutePath()+"/"+floderName;
+		File dir=new File(base);
+		if(!dir.isDirectory() || !dir.exists()){
+			 dir.mkdirs();
+		}
+		return dir;
+	}
+	
+	/**创建文件**/
+	public File createFile(File fatherFile,String fileName){
+		fileName=StringTools.clearNotChinese(fileName);
+		String base=fatherFile.getAbsolutePath()+"/"+fileName+".md";
+		File dir=new File(base);
+		if(!dir.isFile() || !dir.exists()){
+			 try {
+				dir.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return dir;
+	}
+	
+	
+	
+	/**创建文件**/
+	public File createFile(String fileName,File floderName){
+		if(floderName==null){
+			try {
+				throw new Exception("父文件为空!");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(floderName.exists()){
+			floderName.mkdirs();
+		}
+		fileName=StringTools.clearNotChinese(fileName);
+		String base=floderName.getAbsolutePath()+"/"+fileName+".md";
+		File fi=new File(base);
+		if(!fi.isFile() || !fi.exists()){
+			 try {
+				fi.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return fi;
+	}
+	
 	public File createFloder(String name,String floderName){
 		name=StringTools.clearNotChinese(name);
 		System.out.println("改变后="+name);
