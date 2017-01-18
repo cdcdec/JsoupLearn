@@ -10,7 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class JSOUP{
+public class JSOUP2{
 	
 	private Document  getDoc(String htmlUrl){
 		Document doc=null;
@@ -28,20 +28,15 @@ public class JSOUP{
 		Floder  floder=null;
 		Document doc=getDoc(htmlUrl);
 		String str="";
-		Elements links = doc.select("tr[bgcolor=#ffffff]");
-		Elements as=links.select("td>a");
-		Elements as2=as.select("a");
-		for (int i = 0; i < as2.size(); i++) {
-			String text=as2.get(i).text();
-			floder=new Floder();
-			System.out.println("改变前="+text);
-			File tempFile=floder.createFloder(text,floderName);
-			String str2=as2.get(i).attr("href");//获取href的值
-			String newUrl=StringTools.getPath(htmlUrl)+str2;
-			getText(newUrl, tempFile,text);
-			
-			
-		}
+		//获取:<h1><strong><font color="#dc143c">人在欧洲</font></strong></h1>中的"人在欧洲"
+		Elements arTitle = doc.select("h1>strong>font[color=#dc143c]");
+		floder=new Floder();
+		floder.createRootDir("", arTitle.get(0).text());
+		//<td class="p10-24"><strong>内容简介：</strong><br />　　《人在欧洲》是龙应台旅瑞一年多的心路...</td>
+		Elements arDesc = doc.select("td.p10-24");//只能获取"内容简介："
+		
+		System.out.println(arDesc.get(0).html());
+		
 		return str; 
 	}
 	

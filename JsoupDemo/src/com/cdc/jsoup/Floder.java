@@ -8,6 +8,17 @@ import java.io.PrintStream;
 
 public class Floder {
 	
+	/**创建根目录:作者/根目录**/
+	public File createRootDir(String authorName,String floderName){
+		floderName=StringTools.clearNotChinese(floderName);
+		String base="c:/"+authorName+"/"+floderName;
+		File dir=new File(base);
+		if(!dir.isDirectory() || !dir.exists()){
+			 dir.mkdirs();
+		}
+		return dir;
+	}
+	
 	public File createFloder(String name,String floderName){
 		name=StringTools.clearNotChinese(name);
 		System.out.println("改变后="+name);
