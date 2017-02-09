@@ -11,7 +11,7 @@
 
 ```txt
 //采集"血玲珑"这部小说,将采集到的内容保存在c盘的"血玲珑"文件夹下,且将每一章的内容以md文件的形式保存。
-JSOUP jsoup=new JSOUP();
+JSOUP1 jsoup=new JSOUP1();
 jsoup.getTable("http://www.kanunu8.com/book/4333/","血玲珑");
 
 
