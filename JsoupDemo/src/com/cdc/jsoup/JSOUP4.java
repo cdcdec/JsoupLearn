@@ -17,6 +17,8 @@ import org.jsoup.select.Elements;
  * 汉书
  * http://guoxue.lishichunqiu.com/shibu/houhanshu/
  * 后汉书
+ * http://guoxue.lishichunqiu.com/shibu/jinshu/
+ * 晋书
  * @author cdc
  *
  */
@@ -79,6 +81,8 @@ public class JSOUP4 {
 			String titleHref=titles.get(i).absUrl("href");
 			System.out.println(titleName+" "+titleHref);
 			File ttFile=floder.createFile(file, titleName);
+			ps.append("\n\n");
+			ps.append("["+ttFile.getName().replaceAll(".md", "")+"___]("+ttFile.getName()+")");
 			getText(titleHref, ttFile);
 		}
 		

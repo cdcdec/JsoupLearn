@@ -11,15 +11,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 /**
- * http://guoxue.lishichunqiu.com/shibu/houhanshu/
- * 后汉书
- * http://guoxue.lishichunqiu.com/shibu/sanguozhi/
- * 三国志
+ * 获取历史春秋  史部目录
+ * http://guoxue.lishichunqiu.com/shibu/
  * 
  * @author cdc
  *
  */
-public class JSOUP5 {
+public class JSOUP6 {
 	private Document  getDoc(String htmlUrl){
 		Document doc=null;
 		 try {
@@ -51,66 +49,34 @@ public class JSOUP5 {
 			}
 		}
 		
-		Floder  floder=null;
 		Document doc=getDoc(htmlUrl);
 		String str="";
-		Elements pps=doc.select("div.jj960>p");
+		//<td style="line-height: 22px; font-size: 16px; text-align: center;" height="32" width="34%">
+		Elements pps=doc.select("td[style=line-height: 22px; font-size: 16px; text-align: center;]");
 		try {
 			ps = new PrintStream(new FileOutputStream(tFile));
 			ps.append("# "+floderName);
 			//添加一行空行
 			ps.append("\n\n");
-			ps.append("## 简介");
+			ps.append("## 中国古代史目录");
 			ps.append("\n\n");
 			for (int i = 0; i < pps.size(); i++) {
 				String ss=pps.get(i).text();
-				ps.append(ss);
+				ss=ss.replaceAll("《", "");
+				ss=ss.replaceAll("》", "");
+				ps.append("\n\n");
+				ps.append("["+ss+"]("+ss+"/"+ss+".md)___");
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//900917068090
-		Elements titles=doc.select("a[style=font:14px/24px '宋体';]");
-		floder=new Floder();
-		for (int i = 0; i < titles.size(); i++) {
-			String titleName=titles.get(i).text();
-			String titleHref=titles.get(i).absUrl("href");
-			System.out.println(titleName+" "+titleHref);
-			File ttFile=floder.createFile(file, titleName);
-			ps.append("\n\n");
-			ps.append("["+ttFile.getName().replaceAll(".md", "")+"___]("+ttFile.getName()+")");
-			//getText(titleHref, ttFile);
 		}
 		
 		return str; 
 	}
 	
 	
-	
-	public void getText(String htmlUrl,File file){
-		PrintStream ps=null;
-		try {
-			ps = new PrintStream(new FileOutputStream(file));
-			ps.append("# "+file.getName().replaceAll(".md", ""));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Document doc=getDoc(htmlUrl);
-		Element element=doc.getElementById("content");
-		element.select("span").remove();
-		element.select("table").remove();
-		element.select("div[class=prenext]").remove();
-		
-		Elements pps = element.getAllElements();
-		for (int i = 0; i < pps.size(); i++) {
-			//添加一行空行
-			ps.append("\n\n");
-			String sss=pps.get(i).text();
-			ps.append(sss);
-		}
-	}
+
 
 
 }

@@ -75,6 +75,8 @@ public class JSOUP3 {
 			titleName=titleName+getDetailTitle(titleHref);
 			System.out.println(titleName+" "+titleHref);
 			File ttFile=floder.createFile(file, titleName);
+			ps.append("\n\n");
+			ps.append("["+ttFile.getName()+"]("+ttFile.getName()+")");
 			getText(titleHref, ttFile);
 		}
 		
